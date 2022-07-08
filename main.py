@@ -1,17 +1,43 @@
-import random
+from datetime import datetime
+from playsound import playsound
 
-answer = ["Бесспорно", "Мне кажется - да", "Пока неясно, попробуй снова", "Даже не думай",
-           "Предрешено", "Вероятнее всего", "Спроси позже", "Мой ответ - нет",
-           "Никаких сомнений", "Хорошие перспективы", "Лучше не рассказывать", "По моим данным - нет",
-           "Можешь быть уверен в этом", "Да", "Сконцентрируйся и спроси опять", "Весьма сомнительно"]
+def validate_time(alarm_time):
+    if len(alarm_time) != 8:
+        return "Не тот формат, пожалуйста повторите"
+    else:
+        if int(alarm_time[0:2]) > 23:
+            return "Не тот формат, пожалуйста повторите"
+        elif int(alarm_time[3:5]) > 59:
+            return "Не тот формат, пожалуйста повторите"
+        elif int(alarm_time[6:8]) > 59:
+            return "Не тот формат, пожалуйста повторите"
+        else:
+            return "ок"
 
-print('Привет Мир, я магический шар, и я помогу тебе с ответами в своей жизни.')
-print('Как тебя звать друг мой?')
-name = input()
 while True:
-    ball = input('Задайте свой вопрос')
-    print(random.choice(answer))
-    again = input('Попробовать снова? Да или Нет?')
-    if again == 'Нет' or again == 'нет':
-        print('Буду ждать твоего возвращения<3')
+    alarm_time = input("Введите время в формате 'HH:MM:SS':")
+
+    validate = validate_time(alarm_time.lower())
+    if validate != 'ок':
+        print(validate)
+    else:
+        print(f"Установка будильника для {alarm_time}")
         break
+
+alarm_hour = alarm_time[0:2]
+alarm_min = alarm_time[3:5]
+alarm_sec = alarm_time[6:8]
+
+while True:
+    now = datetime.now()
+
+    current_hour = now.strftime("%I")
+    current_min = now.strftime("%M")
+    current_sec = now.strftime("%S")
+
+    if alarm_hour == current_hour:
+        if alarm_min == current_min:
+            if alarm_sec == current_sec:
+                print("ВСТАВАЙ УЕБИЩЕ")
+                playsound('C:\\Users\\danii\\PycharmProjects\\Будильник\\rafael_krux-hit_n_smash.mp3')
+                break
